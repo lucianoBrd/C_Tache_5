@@ -25,7 +25,7 @@ $(TEST): $(TOBJS)
 	$(CC) -c $*.c
 	
 clean :
-	-rm -f *.o $(SERVER) $(CLIENT)
+	-rm -f *.o $(SERVER) $(CLIENT) $(TEST)
 	
 tests :
 	-make
