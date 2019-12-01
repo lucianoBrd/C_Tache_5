@@ -1,6 +1,6 @@
-# Rapport d’auto-évaluation tache 4
+# Rapport d’auto-évaluation tache 5
 
-Lien du git : [Projet](https://github.com/lucianoBrd/C_Tache_4)
+Lien du git : [Projet](https://github.com/lucianoBrd/C_Tache_5)
 
 ## Objectif: Quel est l’objectif de votre projet?
 
@@ -27,6 +27,8 @@ Dans la [Tache3](https://github.com/lucianoBrd/C_Tache_3), nous avons géré :
 Dans la [Tache4](https://github.com/lucianoBrd/C_Tache_4), nous avons géré :
   * Nous avons implémenté les fonctionnalités suivantes sur la partie calcule 
   serveur : moyenne, minimum, maximum et ecart_type.
+  
+Dans la [Tache5](https://github.com/lucianoBrd/C_Tache_5), nous avons géré :
 
 ## Fichiers: Noms de fichiers
 
@@ -68,6 +70,12 @@ couleur.c
 couleur.h
 ```
 
+Il y a 2 fichiers pour les tests :
+```
+test.c
+test.h
+```
+
 Il y a 2 fichiers pour la partie validateur :
 ```
 validateur.c
@@ -91,6 +99,7 @@ save.txt
 Dans ce projet, nous utilisons plusieurs bibliothèques standards :
   * string.h
   * math.h
+  * assert.h
   * stdio.h
   * stdlib.h
   * unistd.h
