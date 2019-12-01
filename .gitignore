@@ -8,4 +8,5 @@ src/serveur.o
 src/validateur.o
 src/test
 src/test.o
+src/taxo.o
 src/save.txt

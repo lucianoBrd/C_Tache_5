@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include "validateur.h"
+#include "taxo.h"
 
 /* Port de communication avec le client */
 #define PORT 8089

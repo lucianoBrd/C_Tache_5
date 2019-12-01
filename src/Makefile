@@ -1,8 +1,8 @@
 CC ?= gcc
 
 COBJS ?= client.o bmp.o couleur.o json.o validateur.o
-SOBJS ?= serveur.o json.o validateur.o
-TOBJS ?= test.o bmp.o couleur.o json.o validateur.o
+SOBJS ?= serveur.o json.o validateur.o taxo.o
+TOBJS ?= test.o bmp.o couleur.o json.o validateur.o taxo.o
 
 .SUFFIXES: .c .o
 
@@ -19,7 +19,7 @@ $(CLIENT): $(COBJS)
 	$(CC) -o $(CLIENT) $(COBJS)
 
 $(TEST): $(TOBJS)
-	$(CC) -o $(TEST) $(TOBJS)
+	$(CC) -o $(TEST) $(TOBJS) -lm
 
 .c.o:
 	$(CC) -c $*.c

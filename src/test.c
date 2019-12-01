@@ -13,11 +13,139 @@ int main(
   char  **argv
 ){
     char  data[DATA_SIZE];
+    
     /**** Test message, nom, calcule, couleurs ****/
+    /* Create object */
+    message_json *json = new_message_json(4);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "+");
+    strcpy(json->valeurs[1], "5");
+    strcpy(json->valeurs[2], "6");
+    strcpy(json->valeurs[3], "7");
+    
+    /* Test calcule */
+    assert(calcule(json) == 18);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(4);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "mpmp");
+    strcpy(json->valeurs[1], "5");
+    strcpy(json->valeurs[2], "6");
+    strcpy(json->valeurs[3], "7");
+    
+    /* Test calcule */
+    assert(calcule(json) == -1.0);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(3);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "-");
+    strcpy(json->valeurs[1], "10");
+    strcpy(json->valeurs[2], "6");
+    
+    /* Test calcule */
+    assert(calcule(json) == 4);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(3);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "*");
+    strcpy(json->valeurs[1], "10");
+    strcpy(json->valeurs[2], "6");
+    
+    /* Test calcule */
+    assert(calcule(json) == 60);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(3);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "/");
+    strcpy(json->valeurs[1], "2");
+    strcpy(json->valeurs[2], "2");
+    
+    /* Test calcule */
+    assert(calcule(json) == 1);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(3);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "moyenne");
+    strcpy(json->valeurs[1], "10");
+    strcpy(json->valeurs[2], "10");
+    
+    /* Test calcule */
+    assert(calcule(json) == 10);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(3);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "minimum");
+    strcpy(json->valeurs[1], "10");
+    strcpy(json->valeurs[2], "6");
+    
+    /* Test calcule */
+    assert(calcule(json) == 6);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(3);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "maximum");
+    strcpy(json->valeurs[1], "10");
+    strcpy(json->valeurs[2], "6");
+    
+    /* Test calcule */
+    assert(calcule(json) == 10);
+    
+    /* Delete the object */
+    delete_message_json(json);
+    
+    /* Create object */
+    json = new_message_json(3);
+    /* Set the code of the message */
+    strcpy(json->code, "calcule");
+    strcpy(json->valeurs[0], "ecart_type");
+    strcpy(json->valeurs[1], "10");
+    strcpy(json->valeurs[2], "6");
+    
+    /* Test calcule */
+    assert(calcule(json) == 2);
+    
+    /* Delete the object */
+    delete_message_json(json);
     
     /**** Test analyze JSON messages ****/
     /* Create object */
-    message_json *json = new_message_json(1);
+    json = new_message_json(1);
     /* Set the code of the message */
     strcpy(json->code, "message");
     strcpy(json->valeurs[0], "Bonjour");
