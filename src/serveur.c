@@ -314,64 +314,75 @@ int recois_envoie_message(
                 data_size;
   message_json  *json;
 
-  /* New connection of the client */
-  client_socket_fd = accept(socketfd, (struct sockaddr *) &client_addr, &client_addr_len);
-  if(client_socket_fd < 0 ){
-    perror("accept");
-    return(EXIT_FAILURE);
+  for(;;){
+    /* New connection of the client */
+    client_socket_fd = accept(socketfd, (struct sockaddr *) &client_addr, &client_addr_len);
+    if(client_socket_fd < 0 ){
+        perror("accept");
+        return(EXIT_FAILURE);
 
-  } /* Error accept */
+    } /* Error accept */
+    
+    int return_fork;
+    return_fork = fork();
+    if(return_fork == 0){
+        memset(data, 0, sizeof(data));
 
-  memset(data, 0, sizeof(data));
+        /* Read client data */
+        data_size = read(client_socket_fd, (void *) data, sizeof(data));
 
-  /* Read client data */
-  data_size = read(client_socket_fd, (void *) data, sizeof(data));
+        if(data_size < 0){
+            perror("erreur lecture");
+            return(EXIT_FAILURE);
 
-  if(data_size < 0){
-    perror("erreur lecture");
-    return(EXIT_FAILURE);
+        } /* Error read */
+        
+        /* Test the message */
+        if(validateur_format_message_json(data) == -1 || validateur_content_message_json(data) == -1){
+            printf("Message recu incorrect.\n");
+            return 0;
+            
+        }
 
-  } /* Error read */
+        /* Print the message of the client */
+        printf("Message recu :\n");
+        json = create_object_json(data);
+        print_message_json(json);
+
+        if(strcmp(json->code, "message") == 0){
+            /* Case code 'message' */
+
+            /* Ask the user what message he wants to return to the client */
+            message_json *json_return = new_message_json(1);
+            printf("Votre message (max 100 caracteres): ");
+            fgets(json_return->valeurs[0], VALEURS_SIZE, stdin);
+
+            strcpy(json_return->code, "message");
+
+            renvoie_message(client_socket_fd, json_return);
+
+        } else if(strcmp(json->code, "nom") == 0){
+            /* Case code 'nom' */
+            renvoie_nom_client(client_socket_fd, data);
+
+        } else if(strcmp(json->code, "calcule") == 0){
+            /* Case code 'calcule' */
+            recois_numero_calcule(client_socket_fd, json);
+
+        } else if(strcmp(json->code, "couleurs") == 0){
+            /* Case code 'couleurs' */
+            /* Plot the image */
+            plot(client_socket_fd, json);
+
+        }
+        delete_message_json(json);
+    
+    } else {
+        /* close connection of the father */
+        close(client_socket_fd);
+    }
   
-  /* Test the message */
-  if(validateur_format_message_json(data) == -1 || validateur_content_message_json(data) == -1){
-    printf("Message recu incorrect.\n");
-    return 0;
-      
-  }
-
-  /* Print the message of the client */
-  printf("Message recu :\n");
-  json = create_object_json(data);
-  print_message_json(json);
-
-  if(strcmp(json->code, "message") == 0){
-    /* Case code 'message' */
-
-    /* Ask the user what message he wants to return to the client */
-    message_json *json_return = new_message_json(1);
-    printf("Votre message (max 100 caracteres): ");
-    fgets(json_return->valeurs[0], VALEURS_SIZE, stdin);
-
-    strcpy(json_return->code, "message");
-
-    renvoie_message(client_socket_fd, json_return);
-
-  } else if(strcmp(json->code, "nom") == 0){
-    /* Case code 'nom' */
-    renvoie_nom_client(client_socket_fd, data);
-
-  } else if(strcmp(json->code, "calcule") == 0){
-    /* Case code 'calcule' */
-    recois_numero_calcule(client_socket_fd, json);
-
-  } else if(strcmp(json->code, "couleurs") == 0){
-    /* Case code 'couleurs' */
-    /* Plot the image */
-    plot(client_socket_fd, json);
-
-  }
-  delete_message_json(json);
+  } /* accept multi client */
 
   /* Close the socket */
   close(socketfd);
@@ -413,6 +424,7 @@ int main(){
 
   } /* Error bind */
 
+  printf("Ctrl + c to stop the server.\n");
   listen(socketfd, 10);
   recois_envoie_message(socketfd);
 
