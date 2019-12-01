@@ -6,4 +6,6 @@ src/json.o
 src/serveur
 src/serveur.o
 src/validateur.o
+src/test
+src/test.o
 src/save.txt
