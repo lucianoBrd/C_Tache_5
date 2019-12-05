@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "test.h"
 
@@ -284,9 +287,89 @@ int main(
     assert(validateur_format_message_json(data) == -1 || validateur_content_message_json(data) == -1);
     
     /**** Test multiple client can communicate with the server ****/
-    assert(1 == 1);
+    int server_pid,
+        client_1_pid,
+        client_2_pid,
+        serveur_status,
+        client_1_status,
+        client_2_status;
     
-    printf("\nALL TESTS PASSED\n");
+    server_pid = fork();
+    if(server_pid == 0){
+        /* Execute serveur */
+        /* Desactivate print */
+        fclose(stdout);
+        execlp("./serveur", "serveur", (char*)NULL);
+        
+    } else {
+        /* Wait the serveur to completely start */
+        sleep(2);
+        client_1_pid = fork();
+        if(client_1_pid == 0){
+            /* Execute first client */
+            /* Desactivate print */
+            fclose(stdout);
+            execlp("./client", "client", (char*)NULL);
+                
+        } else {
+            /* Execute second client */
+            client_2_pid = fork();
+            if(client_2_pid == 0){
+                /* Execute second client */
+                /* Desactivate print */
+                fclose(stdout);
+                execlp("./client", "client", (char*)NULL);
+                    
+            } else {
+                /* Wait all process have completely start */
+                sleep(3);
+                
+                /* Send signal to the first client to stop it */
+                kill_pid(client_1_pid);
+                /* Send signal to the second client to stop it */
+                kill_pid(client_2_pid);
+                /* Send signal to the serveur to stop it */
+                kill_pid(server_pid);
+                
+                /* Wait all the process to have stopped and get the return status */
+                waitpid(client_1_pid, &client_1_status, 0);
+                waitpid(client_2_pid, &client_2_status, 0);
+                waitpid(serveur_status, &serveur_status, 0);
+                
+                /* Test the process have been stoped by a signal, else there was an error */
+                assert(WIFSIGNALED(client_1_status));
+                assert(WIFSIGNALED(client_2_status));
+                assert(WIFSIGNALED(serveur_status));
+                
+                printf("\nALL TESTS PASSED\n");
+                
+            }
+            
+        }
+        
+    }
+    
     return 0;
 
 } /* main */
+
+ /* @brief
+  * Termine un processus de PID.
+  *
+  * @params
+  * pid : PID du processus a arreter.
+  */
+void kill_pid(
+    int pid
+){
+    if (kill(pid, SIGTERM) < 0) {
+        perror("kill with SIGTERM");
+        
+        if (kill(pid, SIGKILL) < 0) {
+            perror("kill with SIGKILL");
+            
+        } /* Send SIGKILL */
+        
+    } /* Send SIGTERM */
+    
+} /* kill_pid */

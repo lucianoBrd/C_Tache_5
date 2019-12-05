@@ -29,6 +29,15 @@ Dans la [Tache4](https://github.com/lucianoBrd/C_Tache_4), nous avons géré :
   serveur : moyenne, minimum, maximum et ecart_type.
   
 Dans la [Tache5](https://github.com/lucianoBrd/C_Tache_5), nous avons géré :
+  * Création d'une plateforme multi-client. A présent le serveur peut communiquer
+  avec plusieurs clients.
+  * Tests unitaires et fonctionnels afin de vérifier que :
+    Le client et le serveur peuvent accepter tous les types d'opérations (message,
+    nom, calcul, couleurs).
+    Le client et le serveur peuvent accepter et analyser les messages JSON.
+    Le client et le serveur peuvent valider les messages JSON et respecter le protocole
+    de communication.
+    Plusieurs clients peuvent communiquer simultanément avec le serveur.
 
 ## Fichiers: Noms de fichiers
 
@@ -107,13 +116,13 @@ Dans ce projet, nous utilisons plusieurs bibliothèques standards :
   * sys/socket.h
   * netinet/in.h
   * sys/epoll.h
+  * sys/wait.h
 
 ## Références: les URLs, les numéros de groupes
 
 ##  Difficulté: niveau de difficulté (facile, moyenne, difficile)
 
-La difficulté fut plutot moyenne. En somme, le plus délicat fut de 
-revoir l'architecture de notre code afin de rendre le nombre de valeurs
-du calcule dynamique.
+La difficulté fut plutot moyenne. La plus grosse difficulté fut de penser
+à tous les tests possibles.
 
 ## Commentaires (optionnels): remarques etc.

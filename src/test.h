@@ -7,4 +7,14 @@
 #include "validateur.h"
 #include "taxo.h"
 
+ /* @brief
+  * Termine un processus de PID.
+  *
+  * @params
+  * pid : PID du processus a arreter.
+  */
+void kill_pid(
+    int pid
+);
+
 #endif
