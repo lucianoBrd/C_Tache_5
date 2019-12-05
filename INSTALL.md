@@ -8,7 +8,7 @@ make
 ### Executer les tests
 ```
 cd path_project/src
-make tests
+make check
 ```
 ### Executer le projet
 Pour executer le/les client(s) :

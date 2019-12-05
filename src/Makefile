@@ -27,7 +27,7 @@ $(TEST): $(TOBJS)
 clean :
 	-rm -f *.o $(SERVER) $(CLIENT) $(TEST)
 	
-tests :
+check :
 	-make
 	-./test
 	
