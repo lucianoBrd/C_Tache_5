@@ -12,4 +12,8 @@ jobs:
     - name: make
       run: cd src && make
     - name: make check
+      id: test
       run: cd src && make check
+    - name: Check Tests Passed
+      if: steps.test.outputs.result != 0
+      run: exit 1
