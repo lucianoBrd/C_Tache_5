@@ -303,7 +303,7 @@ int main(
         
     } else {
         /* Wait the serveur to completely start */
-        sleep(2);
+        sleep(3);
         client_1_pid = fork();
         if(client_1_pid == 0){
             /* Execute first client */
@@ -322,7 +322,7 @@ int main(
                     
             } else {
                 /* Wait all process have completely start */
-                sleep(3);
+                sleep(2);
                 
                 /* Send signal to the first client to stop it */
                 kill_pid(client_1_pid);

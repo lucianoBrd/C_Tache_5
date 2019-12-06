@@ -29,7 +29,7 @@ int plot(
                 *fp = fopen("save.txt", "a+");
   int           i   = 0,
                 data_size,
-		n   = json->nb_valeurs - 1;
+                n   = json->nb_valeurs - 1;
   char          save[DATA_SIZE],
                 *tmp;
   message_json  *json_save;
